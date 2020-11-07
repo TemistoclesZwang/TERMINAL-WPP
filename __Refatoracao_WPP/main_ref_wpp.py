@@ -1,4 +1,4 @@
-# -- coding: utf-8 --
+# -- coding: utf-8 --000
 
 class Whats:
     def __init__(self):
