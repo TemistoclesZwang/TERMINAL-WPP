@@ -10,7 +10,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument("user-data-dir=Cookies Webdriver Selenium")
 chrome_options.add_argument("--start-maximized")
-chrome_options.add_experimental_option("detach", True)  # Para manter o Chrome aberto
+chrome_options.add_experimental_option("detach", True)  # Para manter o Chrome aberto,pois, esta fechando
 navegador = webdriver.Chrome(chrome_options=chrome_options)
 url =navegador.get('https://web.whatsapp.com/')
 
