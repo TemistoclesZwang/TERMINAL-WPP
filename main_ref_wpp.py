@@ -90,8 +90,8 @@ def send():
     element.send_keys(Keys.RETURN)  
 
 
-def read(, contato):  # lê as últimas mensagens enviadas e recebidas precisa usar o search primeiro
-    .search(contato)
+def read(contato):  # lê as últimas mensagens enviadas e recebidas precisa usar o search primeiro
+    search(contato)
     for c in range(13, 27): 
         try:
             element = navegador.find_element_by_xpath(  
@@ -122,11 +122,10 @@ def se_online():
         Color('Nenhum elemento encontrado')
         pass
 
-wpp = Whats()
 
 
-wpp.notifications()
-wpp.search('Mozao')
+notifications()
+search('Mozao')
 
 
 #Efeito sonoro de notificação
