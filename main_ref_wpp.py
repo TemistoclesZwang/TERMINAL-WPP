@@ -1,6 +1,6 @@
-# -- coding: utf-8 --000
+# -- coding: utf-8 --
 
-from selenium import webdriver  # pip install ou setting/project interpreter
+from selenium import webdriver  #O chromedriver precisar estar na pasta bin do venv
 from selenium.webdriver.common.keys import Keys
 from time import sleep
 import os
@@ -13,6 +13,12 @@ chrome_options.add_argument("--start-maximized")
 chrome_options.add_experimental_option("detach", True)  # Para manter o Chrome aberto,pois, esta fechando
 navegador = webdriver.Chrome(chrome_options=chrome_options)
 url =navegador.get('https://web.whatsapp.com/')
+
+#Efeito sonoro de notificação
+def som():
+    duration = 0.5
+    freq = 180  # Hz
+    os.system('play -nq -t alsa synth {} sine {}'.format(duration, freq))
 
 
 def Color(texto):
@@ -54,7 +60,7 @@ def notifications():  # Mostra as notificações
                 print('teste 2')
         except:
             pass
-
+    som()
 
 def reply():  # Encontra uma notificação e clica
     for c in range(1, 25):  
@@ -74,11 +80,11 @@ def reply():  # Encontra uma notificação e clica
             pass
 
 
-def msg(mensagem):  # Escreve uma mensagem
+def msg(text):  # Escreve uma mensagem
     element = navegador.find_element_by_xpath(
         '//*[@id="main"]/footer/div[1]/div[2]/div/div[2]')  
     element.click() 
-    element.send_keys(mensagem)
+    element.send_keys(text)
 
 
 # Envia mensagem
@@ -124,11 +130,13 @@ def se_online():
 
 
 
-notifications()
-search('Mozao')
+#TODO: selecionar qual notificação vai ser respondida com o reply()
+#usar o notification e colocar as notificações em um array
+#com base na escolha do usuário , selecionar a notificação no array
 
 
-#Efeito sonoro de notificação
-duration = 0.5
-freq = 180  # Hz
-os.system('play -nq -t alsa synth {} sine {}'.format(duration, freq))
+#FIXME: 
+# chrome driver,
+# selenium
+# apt install sox(audio no ubuntu)
+#som de notificação não funciona se outros sons estiverem sendo reproduzidos
