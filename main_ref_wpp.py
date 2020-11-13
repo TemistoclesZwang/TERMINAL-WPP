@@ -30,37 +30,64 @@ def Color(texto):
     print(f'{OKGREEN}{FUNDO_PRETO}{BOLD}--------- {texto} {ENDC}')
 
 
-def search(contato):
+def search(contato): #procura contatos recentes
     try:
         for c in range(1, 22):  # vai rodar números dentro do range
             element = navegador.find_element_by_xpath(
-                f'//*[@id="pane-side"]/div[1]/div/div/div[{c}]/div/div/div[2]/div[1]/div[1]')
+                f'//*[@id="pane-side"]/div[1]/div/div/div[{c}]/div/div/div[2]/div[1]/div[1]') 
             if contato in element.text:
                 element.click()
                 print('Encontrei e cliquei: ')
                 Color(element.text)
 
     except:
-        # print('não achei o contato informado')
+        print('não achei o contato informado')
         pass
 
+def search2(contato): #procura contatos recentes
+    try:
+        element = navegador.find_element_by_tag_name(
+            f'_3CneP')
+        if contato in element.text:
+            element.click()
+            print('Encontrei e cliquei: ')
+            Color(element.text)
 
-def notifications():  # Mostra as notificações
+    except:
+        print('não achei o contato informado')
+        pass
+search2('Mozao')
+
+
+
+def notifications():  # Mostra todas notificações não lidas
+    lista_notificacoes = []
     for c in range(1, 25): 
         try:
             element = navegador.find_element_by_xpath( 
                 f'//*[@id="pane-side"]/div[1]/div/div/div[{c}]/div/div/div[2]/div[2]/div[2]/span[1]')
             if element.text != '':  # Se a notificação for diferente de nada ou seja se tem algum número
+                lista_notificacoes.append(c)
                 print('_' * 30)
-                print(element.text, 'Notificações')
                 element = navegador.find_element_by_xpath(  
                     f'//*[@id="pane-side"]/div[1]/div/div/div[{c}]/div/div/div[2]/div[1]/div[1]')
-                print('Nome do contato:')
+                print('Nome do contato: ', end='')
                 Color(element.text)
-                print('teste 2')
+                print(f'Notificação número: {c}')
         except:
             pass
-    som()
+
+
+def read(contato):  # lê as últimas mensagens enviadas e recebidas precisa usar o search primeiro
+    search(contato)
+    for c in range(13, 27): 
+        try:
+            element = navegador.find_element_by_xpath(  
+                f'//*[@id="main"]/div[3]/div/div/div[3]/div[{c}]')
+            print('_' * 30)
+            print(element.text)
+        except:
+            pass
 
 def reply():  # Encontra uma notificação e clica
     for c in range(1, 25):  
@@ -87,29 +114,14 @@ def msg(text):  # Escreve uma mensagem
     element.send_keys(text)
 
 
-# Envia mensagem
-
-def send():
+def send():# Envia mensagem
     from selenium.webdriver.common.keys import Keys
     element = navegador.find_element_by_xpath(
         '//*[@id="main"]/footer/div[1]/div[2]/div/div[2]') 
     element.send_keys(Keys.RETURN)  
 
 
-def read(contato):  # lê as últimas mensagens enviadas e recebidas precisa usar o search primeiro
-    search(contato)
-    for c in range(13, 27): 
-        try:
-            element = navegador.find_element_by_xpath(  
-                f'//*[@id="main"]/div[3]/div/div/div[3]/div[{c}]')
-            print('_' * 30)
-            print(element.text)
-        except:
-            pass
-
-
-
-def se_online():
+def online(): # verifica se um contato está ou não online, precisa escolher o contato primeiro com search()
 
     from selenium.webdriver.common.by import By
     from selenium.webdriver.support.ui import WebDriverWait
@@ -119,20 +131,17 @@ def se_online():
         '//*[@id="main"]/header/div[2]/div[2]/span')
 
     if element_on.text == 'online':
-        print('Está online2222')
+        print('Está online')
 
     elif element_on.text != 'online':
-        navegador.implicitly_wait(10)
+        navegador.implicitly_wait(5) #espera 5 segundos para ver se o contato ficará online
         print(element_on.text)
     else:
         Color('Nenhum elemento encontrado')
         pass
 
 
-
-#TODO: selecionar qual notificação vai ser respondida com o reply()
-#usar o notification e colocar as notificações em um array
-#com base na escolha do usuário , selecionar a notificação no array
+#TODO:
 
 
 #FIXME: 
